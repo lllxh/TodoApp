@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/wallet_totalMoneyCard_tv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="资产总额"/>
+        <TextView
+            android:id="@+id/wallet_totalMoneyCard_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:textSize="34sp"
+            android:layout_below="@id/wallet_totalMoneyCard_tv1"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_total"
+            android:drawablePadding="10dp"
+            android:text="Test"
+            android:layout_marginBottom="8dp"
+            />
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

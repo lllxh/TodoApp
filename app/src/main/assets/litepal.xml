@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<litepal>
+    <dbname value="MdTally"></dbname>
+    <version value="1"></version>
+
+    <list>
+        <mapping class="com.jason.mdtally.entity.Bill"></mapping>
+        <mapping class="com.jason.mdtally.entity.Todo"></mapping>
+    </list>
+</litepal>
