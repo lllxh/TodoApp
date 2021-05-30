@@ -8,14 +8,24 @@
         android:id="@+id/iconImage"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@drawable/nav_icon"
+        android:src="@drawable/avatar"
         android:layout_centerInParent="true"/>
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:layout_below="@+id/iconImage"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
     <TextView
         android:id="@+id/mailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name"
         android:layout_alignParentBottom="true"
-        android:text="1506883630@qq.com"
+        android:text="@string/email"
         android:textColor="#fff"
         android:textSize="14sp"/>
 
