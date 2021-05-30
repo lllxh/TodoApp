@@ -1,6 +1,7 @@
 package com.jason.mdtally.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jason.mdtally.R;
 import com.jason.mdtally.entity.Todo;
 
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
+    private static final String TAG = "MdTally-TodoAdapter";
     private Context mContext;
     private List<Todo> mTodoList;
 
@@ -45,16 +50,13 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         View view = LayoutInflater.from(mContext).inflate(R.layout.todo_item,parent,false);
         final ViewHolder holder = new ViewHolder(view);
         holder.cardView.setOnClickListener(v -> {
-            //TODO 点击card后弹出编辑
+            // TODO: 2021/5/30 长按Card弹出bottom sheet
         });
 
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Todo todo = new Todo();
-                todo.setChecked(isChecked);
-                todo.save();
-                notifyDataSetChanged();
+                // TODO: 2021/5/30 点击Checkbox后更新数据
             }
         });
         return holder;

@@ -10,19 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.jason.mdtally.adapter.TodoAdapter;
 import com.jason.mdtally.entity.Todo;
 
@@ -30,19 +26,16 @@ import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MdTally-MainActivity";
     private DrawerLayout drawerLayout;
     private SwipeRefreshLayout swipeRefresh;
     private Toolbar toolbar;
     private NavigationView navView;
     private FloatingActionButton fab;
-    private TodoAdapter adapter;
+    private TodoAdapter mAdapter;
     private SimpleDateFormat df;
     private boolean flag = true;
     private SharedPreferences.Editor editor;
@@ -63,74 +56,97 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         navView = findViewById(R.id.navView);
 
+        /*
+            侧边栏菜单
+         */
         ActionBar actionBar = getSupportActionBar();
         if (actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
-        navView.setCheckedItem(R.id.navCall);
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                drawerLayout.closeDrawers();
-                return true;
+        navView.setCheckedItem(R.id.navTask);
+        navView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navAboutMe:
+                    Intent intent = new Intent(MainActivity.this, AboutMeActivity.class);
+                    intent.putExtra("Url","http://blog.catnipball.xyz/about/");
+                    startActivity(intent);
+                    break;
+                case R.id.navGithub:
+                    Intent intent1 = new Intent(MainActivity.this, AboutMeActivity.class);
+                    intent1.putExtra("Url","https://github.com/lllxh");
+                    startActivity(intent1);
+                    break;
             }
+            drawerLayout.closeDrawers();
+            return true;
         });
 
-        //fab
+        /*
+            FAB
+         */
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
-            //TODO fab点击事件
-            Todo todo = new Todo();
-            todo.setDate(new Date());
-            todo.setChecked(true);
-            todo.setContent("软件工程");
-            todo.setmId(UUID.randomUUID().toString());
-            todo.save();
-            Toast.makeText(this,todoList.toString(),Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, NewTodoActivity.class);
+            startActivity(intent);
         });
 
 
-
-        // 待办清单
+        /*
+            recyclerView初始化，待办列表
+         */
         recyclerView = findViewById(R.id.recyclerView);
+        todoList = DataSupport.findAll(Todo.class);
+        mAdapter = new TodoAdapter(todoList);
+        recyclerView.setAdapter(mAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        todoList = DataSupport.findAll(Todo.class);
-        adapter = new TodoAdapter(todoList);
-        recyclerView.setAdapter(adapter);
 
-        // 下拉刷新
+
+
+        /*
+            下拉刷新
+         */
         swipeRefresh = findViewById(R.id.swipeRefresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefresh.setOnRefreshListener(this::refreshTodoList);
-
-
-    }
-
-    // 刷新方法
-    //TODO 崩溃问题还是没解决
-    private void refreshTodoList() {
-        if (recyclerView.isComputingLayout()) {
-            recyclerView.post(new Runnable() {
+        swipeRefresh.setRefreshing(false);
+        swipeRefresh.setOnRefreshListener(() -> {
+            swipeRefresh.setRefreshing(true);
+            Log.i(TAG,"下拉刷新");
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    requestData();
-                    adapter.notifyDataSetChanged();
+                    try {
+                        Thread.sleep(500);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            requestData();
+                            mAdapter.notifyDataSetChanged();
+                            swipeRefresh.setRefreshing(false);
+                        }
+                    });
                 }
-            });
-        }else {
-            requestData();
-            adapter.notifyDataSetChanged();
-        }
-        swipeRefresh.setRefreshing(false);
+            }).start();
+        });
+
+
     }
 
+    /*
+        初始化数据库
+     */
     private void initDB() {
         LitePal.getDatabase();
         Log.i(TAG,"数据库已创建");
     }
 
+    /*
+        获取数据集
+     */
     private void requestData(){
         todoList.clear();
         todoList.addAll(DataSupport.findAll(Todo.class));
@@ -148,13 +164,17 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
-            case R.id.wallet:
-                Intent intent = new Intent(this, WalletActivity.class);
-                startActivity(intent);
-                break;
             default:
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"返回MainActivity");
+        requestData();
+        mAdapter.notifyDataSetChanged();
     }
 }

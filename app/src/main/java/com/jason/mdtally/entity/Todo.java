@@ -10,23 +10,25 @@ public class Todo extends DataSupport {
     private String mId;
     private boolean checked;
     private String content;
-    private Date Date;
+    private String Date;
+    private String remindTime;
 
     public Todo() {
         super();
         mId = UUID.randomUUID().toString();
+        checked = false;
     }
 
-    public Todo(boolean checked, String content) {
+    public Todo(boolean checked) {
         this.checked = checked;
-        this.content = content;
     }
 
-    public Todo(String mId, boolean checked, String content, java.util.Date date) {
+    public Todo(String mId, boolean checked, String content, String date, String remindTime) {
         this.mId = mId;
         this.checked = checked;
         this.content = content;
         Date = date;
+        this.remindTime = remindTime;
     }
 
     @Override
@@ -36,6 +38,7 @@ public class Todo extends DataSupport {
                 ", checked=" + checked +
                 ", content='" + content + '\'' +
                 ", Date='" + Date + '\'' +
+                ", remindTime='" + remindTime + '\'' +
                 '}';
     }
 
@@ -63,17 +66,19 @@ public class Todo extends DataSupport {
         this.content = content;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return Date;
     }
 
-    public Todo(boolean checked, String content, java.util.Date date) {
-        this.checked = checked;
-        this.content = content;
+    public void setDate(String date) {
         Date = date;
     }
 
-    public void setDate(java.util.Date date) {
-        Date = date;
+    public String getRemindTime() {
+        return remindTime;
+    }
+
+    public void setRemindTime(String remindTime) {
+        this.remindTime = remindTime;
     }
 }

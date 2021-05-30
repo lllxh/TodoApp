@@ -10,7 +10,20 @@
         <item name="colorSecondaryVariant">@color/colorSecondary_Dark</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/colorPrimary</item>
+        <item name="android:statusBarColor" >@android:color/transparent</item>
+
         <!-- Customize your theme here. -->
+    </style>
+
+<!--    <style name="dialog_date" parent="Base.Theme.AppCompat.Light.Dialog.FixedSize">-->
+<!--        &lt;!&ndash;设置header部分显示的颜色&ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryDark">@color/colorPrimary</item>-->
+<!--        <item name="colorAccent">@color/colorPrimary</item>-->
+<!--        &lt;!&ndash;这个说明提示框是否是浮动的 这个很重要&ndash;&gt;-->
+<!--        <item name="android:windowIsFloating">true</item>-->
+<!--    </style>-->
+    <style name="toolbar_theme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@color/colorPrimary_Dark</item>
     </style>
 </resources>

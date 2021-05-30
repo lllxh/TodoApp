@@ -13,6 +13,8 @@
     <color name="colorSecondary">#f3f3f3</color>
     <color name="colorSecondary_Light">#ffffff</color>
     <color name="colorSecondary_Dark">#c0c0c0</color>
+    <color name="grey">#14d0d0d0</color>
+    <color name="transparent">#00000000</color>
 
 
 </resources>
