@@ -12,13 +12,27 @@
     app:cardCornerRadius="10dp"
     app:cardElevation="10dp">
 
-
-    <CheckBox
-        android:id="@+id/todo_checkbox"
-        android:layout_marginStart="10dp"
-        android:paddingStart="5dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="test"/>
+        android:layout_height="match_parent">
+        <CheckBox
+            android:id="@+id/todo_checkbox"
+            android:layout_marginStart="10dp"
+            android:paddingStart="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="test"/>
+        <TextView
+            android:id="@+id/todo_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/todo_checkbox"
+            android:text="日期"
+            android:drawableLeft="@drawable/card_date"
+            android:drawablePadding="5dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="-8dp"/>
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">MdTally</string>
+    <string name="app_name">MdTodo</string>
     <string name="about_me">关于我</string>
-    <string name="todo">Todo</string>
+    <string name="todo">待办</string>
     <string name="github">Github</string>
     <string name="username">Jason</string>
     <string name="email">1506883630@qq.com</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
 </resources>

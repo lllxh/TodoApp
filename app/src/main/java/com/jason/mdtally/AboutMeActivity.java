@@ -15,7 +15,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class AboutMeActivity extends AppCompatActivity {
-    private static final String TAG = "MdTally-AboutMeActivity";
+    private static final String TAG = "MdTodo-AboutMeActivity";
     private String url;
 
 

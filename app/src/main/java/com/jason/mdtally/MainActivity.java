@@ -4,15 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.jason.mdtally.adapter.TodoAdapter;
 import com.jason.mdtally.entity.Todo;
-
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
@@ -29,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MdTally-MainActivity";
+    private static final String TAG = "MdTodo-MainActivity";
     private DrawerLayout drawerLayout;
     private SwipeRefreshLayout swipeRefresh;
     private Toolbar toolbar;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private List<Todo> todoList;
     private RecyclerView recyclerView;
+    private CoordinatorLayout coordinatorLayout;
 
 
     @Override
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化数据库
         initDB();
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-
-
         /*
             下拉刷新
          */
@@ -111,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         swipeRefresh.setRefreshing(false);
         swipeRefresh.setOnRefreshListener(() -> {
+            //下拉震动
+            Vibrator vib = (Vibrator) this.getSystemService(Service.VIBRATOR_SERVICE);
+            vib.vibrate(100);
             swipeRefresh.setRefreshing(true);
             Log.i(TAG,"下拉刷新");
             new Thread(new Runnable() {
@@ -173,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"返回MainActivity");
+        Log.i(TAG,"进入MainActivity");
         requestData();
         mAdapter.notifyDataSetChanged();
     }

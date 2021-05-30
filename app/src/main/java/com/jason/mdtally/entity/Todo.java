@@ -3,10 +3,11 @@ package com.jason.mdtally.entity;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-public class Todo extends DataSupport {
+public class Todo extends DataSupport implements Serializable {
     private String mId;
     private boolean checked;
     private String content;
@@ -14,9 +15,6 @@ public class Todo extends DataSupport {
     private String remindTime;
 
     public Todo() {
-        super();
-        mId = UUID.randomUUID().toString();
-        checked = false;
     }
 
     public Todo(boolean checked) {
