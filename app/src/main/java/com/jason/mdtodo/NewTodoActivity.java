@@ -1,4 +1,4 @@
-package com.jason.mdtally;
+package com.jason.mdtodo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,8 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,17 +16,12 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.github.jorgecastilloprz.FABProgressCircle;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
-import com.jason.mdtally.entity.Todo;
+import com.jason.mdtodo.entity.Todo;
 
-import org.litepal.crud.DataSupport;
-
-import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Objects;
 import java.util.UUID;
 
 public class NewTodoActivity extends AppCompatActivity {
@@ -90,10 +83,10 @@ public class NewTodoActivity extends AppCompatActivity {
         fab_ok.setOnClickListener(v -> {
             if (TextUtils.isEmpty(textField_title.getEditText().getText().toString())) {
                 Toast.makeText(NewTodoActivity.this,"待办事项可不能不写啊~",Toast.LENGTH_SHORT).show();
-            }else if (todo_remindTime_btn.getText().toString().equals("")){
-                Toast.makeText(NewTodoActivity.this,"没有设置提醒事件",Toast.LENGTH_SHORT).show();
             }else if (todo_date_btn.getText().toString().equals("")){
                 Toast.makeText(NewTodoActivity.this,"没有设置提醒日期",Toast.LENGTH_SHORT).show();
+            }else if (todo_remindTime_btn.getText().toString().equals("")){
+                Toast.makeText(NewTodoActivity.this,"没有设置提醒时间",Toast.LENGTH_SHORT).show();
             }else {
                 todo_title = textField_title.getEditText().getText().toString();
                 Todo todo = new Todo();

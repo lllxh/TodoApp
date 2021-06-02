@@ -1,11 +1,9 @@
-package com.jason.mdtally.entity;
+package com.jason.mdtodo.entity;
 
 
 import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.UUID;
 
 public class Todo extends DataSupport implements Serializable {
     private String mId;

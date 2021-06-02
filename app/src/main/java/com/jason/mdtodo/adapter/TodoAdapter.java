@@ -1,9 +1,8 @@
-package com.jason.mdtally.adapter;
+package com.jason.mdtodo.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +17,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.dialog.MaterialDialogs;
-import com.jason.mdtally.NewTodoActivity;
-import com.jason.mdtally.R;
-import com.jason.mdtally.entity.Todo;
+import com.jason.mdtodo.MdTodoApplication;
+import com.jason.mdtodo.NewTodoActivity;
+import com.jason.mdtodo.R;
+import com.jason.mdtodo.entity.Todo;
+import com.jason.mdtodo.utils.SortUtils;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
@@ -68,20 +67,19 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                 return true;
             }
         });
-
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 Todo todo = mTodoList.get(position);
-                todo.setChecked(isChecked);
+                todo.setChecked(holder.checkBox.isChecked());
                 todo.save();
                 if (todo.isChecked()){
                     Toast.makeText(mContext,todo.getContent()+"->已完成",Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(mContext,todo.getContent()+"->未完成",Toast.LENGTH_SHORT).show();
                 }
-                Log.i(TAG,"更新完成状态："+todo.getContent()+"->"+isChecked);
+                Log.i(TAG,"更新完成状态："+todo.getContent()+"->"+holder.checkBox.isChecked());
             }
         });
         holder.checkBox.setOnLongClickListener(new View.OnLongClickListener() {
@@ -115,9 +113,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         todo.delete();
-                        mTodoList.clear();
-                        mTodoList.addAll(DataSupport.findAll(Todo.class));
-                        notifyDataSetChanged();
+                        SortUtils.sortByMode(mTodoList,TodoAdapter.this, MdTodoApplication.getMode());
                         Toast.makeText(mContext,"删除："+todo.getContent(),Toast.LENGTH_SHORT).show();
                         Log.i(TAG,"删除待办："+todo.toString());
                     }

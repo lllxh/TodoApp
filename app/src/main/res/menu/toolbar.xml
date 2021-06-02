@@ -3,9 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/wallet"
-        android:icon="@drawable/ic_wallet"
-        android:title="Wallet"
-        app:showAsAction="always"
+        android:id="@+id/menu_dateSort"
+        android:title="按日期降序排序"
+        app:showAsAction="never"
         />
+    <item
+        android:id="@+id/menu_checkedSort"
+        android:title="按完成情况排序"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_default"
+        android:title="按创建顺序排序"
+        app:showAsAction="never"/>
 </menu>

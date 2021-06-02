@@ -1,4 +1,4 @@
-package com.jason.mdtally;
+package com.jason.mdtodo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,14 +16,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.jason.mdtally.adapter.TodoAdapter;
-import com.jason.mdtally.entity.Todo;
+import com.jason.mdtodo.adapter.TodoAdapter;
+import com.jason.mdtodo.entity.Todo;
+import com.jason.mdtodo.utils.SortUtils;
+
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
@@ -53,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化数据库
         initDB();
-
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -129,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            requestData();
-                            mAdapter.notifyDataSetChanged();
+                            SortUtils.sortByMode(todoList,mAdapter,MdTodoApplication.getMode());
                             swipeRefresh.setRefreshing(false);
                         }
                     });
@@ -149,14 +150,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG,"数据库已创建");
     }
 
-    /*
-        获取数据集
-     */
-    private void requestData(){
-        todoList.clear();
-        todoList.addAll(DataSupport.findAll(Todo.class));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar,menu);
@@ -169,6 +162,17 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
+            case R.id.menu_default:
+                MdTodoApplication.setMode(0);
+                SortUtils.sortByMode(todoList,mAdapter,MdTodoApplication.getMode());
+                break;
+            case R.id.menu_dateSort:
+                MdTodoApplication.setMode(1);
+                SortUtils.sortByMode(todoList,mAdapter,MdTodoApplication.getMode());
+                break;
+            case R.id.menu_checkedSort:
+                MdTodoApplication.setMode(2);
+                SortUtils.sortByMode(todoList,mAdapter,MdTodoApplication.getMode());
             default:
                 break;
         }
@@ -179,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i(TAG,"进入MainActivity");
-        requestData();
+        SortUtils.sortByMode(todoList,mAdapter,MdTodoApplication.getMode());
         mAdapter.notifyDataSetChanged();
     }
 }
